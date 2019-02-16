@@ -1,0 +1,38 @@
+name: github.com/opspec-pkgs/kind.create.cluster
+description: create a kind (kubernetes in docker) cluster on the host docker
+opspec: 0.1.6
+version: 1.0.0
+inputs:
+  outputDir:
+    dir:
+      description: directory to output kind cluster kubeconfig
+      default: .
+  name:
+    string:
+      constraints: { minLength: 1 }
+      description: name of cluster
+  dockerSocket:
+    socket:
+      description: access to docker on node (typically '/var/run/docker.sock')
+  clusterConfig:
+    file:
+      description: kind cluster config file
+      default: /default-config.yaml
+outputs:
+  kubeConfig:
+    file:
+      description: kind cluster kubeConfig
+run:
+  container:
+    cmd: [ /cmd.sh ]
+    dirs:
+      /outputDir: $(outputDir)
+    files:
+      /clusterConfig.yaml: $(clusterConfig)
+      /cmd.sh:
+      /kubeConfig: $(kubeConfig)
+    image: { ref: 'opspecpkgs/kind.create.cluster:1.0.0' }
+    sockets:
+      /var/run/docker.sock: dockerSocket
+    envVars:
+      name:
