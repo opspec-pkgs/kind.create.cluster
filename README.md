@@ -2,7 +2,7 @@
 
 # Problem statement
 
-create a kind (kubernetes in docker) cluster
+create a kind (kubernetes in docker) cluster on the host docker
 
 # Format
 
@@ -27,6 +27,15 @@ opctl run github.com/opspec-pkgs/kind.create.cluster#1.0.0
 ```yaml
 op:
   ref: github.com/opspec-pkgs/kind.create.cluster#1.0.0
+  inputs:
+    # required
+    dockerSocket:
+    name:
+    ### optional; uncomment to override default(s)
+    # clusterConfig: /default-config.yaml
+    # outputDir: .
+  outputs:
+    kubeConfig:
 ```
 
 # Support
